@@ -42,7 +42,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "items_cell", for: indexPath)
+        let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "items_cell", for: indexPath)
         
         cell.textLabel?.text = items[indexPath.row]
         cell.textLabel?.textColor = UIColor.red
@@ -51,7 +51,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedRow = tableView.cellForRow(at: indexPath)!
+        let selectedRow:UITableViewCell = tableView.cellForRow(at: indexPath)!
         
         if selectedRow.accessoryType == UITableViewCellAccessoryType.none {
             selectedRow.accessoryType = UITableViewCellAccessoryType.checkmark
@@ -60,6 +60,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             selectedRow.accessoryType = UITableViewCellAccessoryType.none
         }
     }
-
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let deleteRow:UITableViewCell = tableView.cellForRow(at: indexPath)!
+        
+        if editingStyle == UITableViewCellEditingStyle.delete {
+            items.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+            deleteRow.accessoryType = UITableViewCellAccessoryType.none
+        }
+    }
 }
 
